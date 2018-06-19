@@ -1,0 +1,40 @@
+{
+  "name": "wqer1019/image_uploader",
+  "description": "基於Laravel的圖片上傳插件.",
+  "keywords": [
+    "image",
+    "upload",
+    "gd",
+    "imagick"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "wqer1019",
+      "email": "2013855675@qq.com"
+    }
+  ],
+  "require": {
+    "intervention/image": "^2.1",
+    "php": "^5.4 | ^7.0",
+    "league/glide-laravel": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Wqer1019\\ImageUploader\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Wqer1019\\ImageUploader\\ImageUploadServiceProvider"
+      ]
+    }
+  }
+}
