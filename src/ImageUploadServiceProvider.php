@@ -29,11 +29,19 @@ class ImageUploadServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->publishes([
-            __DIR__ . '/../config/image_upload.php' => config_path('image_upload.php')
-        ]);
+        $root = dirname(__DIR__);
 
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+        if (!file_exists(config_path('image_upload.php'))) {
+            $this->publishes([
+                $root . '/../config/image_upload.php' => config_path('image_upload.php'),
+            ], 'config');
+        }
+        if (!class_exists('CreateImagesTable')) {
+            $datePrefix = date('Y_m_d_His');
+            $this->publishes([
+                $root . '/../migrations/create_images_table.php' => database_path("/migrations/{$datePrefix}_create_images_table.php"),
+            ], 'migrations');
+        }
 
         $this->registerRoute();
     }
@@ -60,7 +68,7 @@ class ImageUploadServiceProvider extends ServiceProvider
         // 上傳圖片
         Route::post('imageupload', function () use ($config) {
             if (Request::hasFile($config['upload_key'])) {
-                $data['result'] = app(Imageupload::class)->upload(Request::file('image'));
+                $data['result'] = app(Imageupload::class)->upload(Request::file($config['upload_key']));
             }
             return new Response($data ?? []);
         });

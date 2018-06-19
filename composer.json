@@ -30,6 +30,11 @@
       "src/helpers.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Wqer1019\\ImageUploader\\Test\\": "tests"
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
