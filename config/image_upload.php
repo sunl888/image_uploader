@@ -2,19 +2,21 @@
 
 return [
     'base_url' => 'img',
-
     'route_name' => 'image',
 
     'path' => 'uploads/images',
-
     'cache_path' => 'uploads/images/.cache',
 
     'disk' => 'local',
     'cache_disk' => 'local',
 
+    'upload_key' => 'image',
+
     'table' => 'image_uploads',
 
-    'allow_types' => ['jpg', 'png'],
+    'allow_types' => [
+        'jpg', 'png'
+    ],
 
     'default_style' => [
         'q' => 90,

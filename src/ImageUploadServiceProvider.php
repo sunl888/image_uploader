@@ -33,11 +33,17 @@ class ImageUploadServiceProvider extends ServiceProvider
             __DIR__ . '/../config/image_upload.php' => config_path('image_upload.php')
         ]);
 
-        $this->loadMigrationsFrom(__DIR__ . '../migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
+        $this->registerRoute();
+    }
 
-        Route::get('img/{image}', function ($path) {
-            $config = config('image_upload');
+    public function registerRoute()
+    {
+        $config = config('image_upload');
+
+        // 顯示圖片
+        Route::get($config['base_url'] . '/{image}', function ($path) use ($config) {
             $server = ServerFactory::create([
                 'response' => new LaravelResponseFactory(app('request')),
                 'source' => Storage::disk($config['disk'])->getDriver(),
@@ -49,10 +55,11 @@ class ImageUploadServiceProvider extends ServiceProvider
                 'defaults' => $config['default_style']
             ]);
             return $server->getImageResponse($path, request()->all());
-        })->name('image');
+        })->name($config['route_name']);
 
-        Route::post('imageupload', function () {
-            if (Request::hasFile('image')) {
+        // 上傳圖片
+        Route::post('imageupload', function () use ($config) {
+            if (Request::hasFile($config['upload_key'])) {
                 $data['result'] = app(Imageupload::class)->upload(Request::file('image'));
             }
             return new Response($data ?? []);

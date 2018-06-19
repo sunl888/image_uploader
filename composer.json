@@ -15,8 +15,8 @@
     }
   ],
   "require": {
+    "php": ">=7.0",
     "intervention/image": "^2.1",
-    "php": "^5.4 | ^7.0",
     "league/glide-laravel": "^1.0"
   },
   "require-dev": {

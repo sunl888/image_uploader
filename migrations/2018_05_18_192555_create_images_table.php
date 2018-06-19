@@ -22,7 +22,7 @@ class CreateImagesTable extends Migration
             $table->unsignedInteger('height');
             $table->string('mime');
             $table->string('size');
-            $table->string('cloud_url');
+            $table->string('cloud_url')->default('local');
             $table->timestampsTz();
         });
     }

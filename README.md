@@ -2,10 +2,10 @@
 
 ## Installation
 
-Glide is available via Composer:
+Image Uploader is available via Composer:
 
 ```bash
-$ composer require league/glide
+$ composer require wqer1019/image_uploader
 ```
 
 ## Testing

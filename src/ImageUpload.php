@@ -89,12 +89,14 @@ class Imageupload
             $this->imageInfo['hash'],
             ['disk' => $this->config['disk']]
         );
-        $url = Storage::disk(
-            $this->config['disk'])
-            ->url(config('image_upload.path') . '/' . $this->imageInfo['hash']);
+        if ($this->config['disk'] === 'local') {
+            $url = Storage::disk(
+                $this->config['disk'])
+                ->url(config('image_upload.path') . '/' . $this->imageInfo['hash']);
+            $this->imageInfo['cloud_url'] = $url;
+        }
         $this->imageInfo['width'] = (int)$image->width();
         $this->imageInfo['height'] = (int)$image->height();
-        $this->imageInfo['cloud_url'] = $url;
         return Image::create($this->wrap());
     }
 
@@ -108,7 +110,7 @@ class Imageupload
             'height' => $this->imageInfo['height'],
             'mime' => $this->imageInfo['original']['mime'],
             'size' => $this->imageInfo['original']['filesize'],
-            'cloud_url' => $this->imageInfo['cloud_url'],
+            'cloud_url' => $this->imageInfo['cloud_url'] ?? null,
         ];
     }
 }
